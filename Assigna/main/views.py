@@ -11,6 +11,3 @@ def test2(request):
 
 def test3(request):
     return render(request, 'main/test3.html')
-
-def itog(request):
-    return render(request, 'main/itog.html')
