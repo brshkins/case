@@ -1,0 +1,98 @@
+/* Обнуление отступов */
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: Arial, sans-serif;
+}
+
+/* Фон */
+.background-wrapper {
+    background-image: url('../img/background.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: 100vh;
+    display: flex;
+    position: relative; /* Добавляем для псевдоэлемента */
+}
+
+/* Дополнительный слой для большего размытия */
+.background-wrapper::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: inherit;
+    filter: blur(8px); /* Размытие самого фона */
+    z-index: -1; /* Отправляем под основной контент */
+}
+
+/* Сайдбар */
+aside {
+    width: 250px;
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: white;
+    height: 100vh;
+    position: fixed;
+    z-index: 10; /* Чтобы сайдбар был поверх размытого фона */
+}
+
+/* Основной контент */
+main {
+    flex: 1;
+    padding: 40px;
+    color: white;
+    backdrop-filter: blur(15px); /* Увеличиваем размытие */
+    -webkit-backdrop-filter: blur(10px); /* Для поддержки в Safari */
+    background-color: rgba(0, 0, 0, 0.3); /* Добавляем затемнение для лучшей читаемости */
+    margin-left: 250px;
+    width: calc(100% - 250px);
+    min-height: 100vh;
+}
+
+/* Навигация */
+aside ul {
+    list-style: none;
+    padding: 0;
+}
+
+aside ul a {
+    text-decoration: none;
+    color: white;
+    display: block;
+}
+
+aside ul li {
+    margin-bottom: 10px;
+    padding: 8px;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+aside ul li:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    display: block;
+    margin-bottom: 20px;
+}
+
+aside img {
+    width: 40px;
+    height: 40px;
+    vertical-align: middle;
+    margin-right: 10px;
+}
+aside img {
+    width: 40px;
+    height: 40px;
+    vertical-align: middle;
+    margin-right: 10px;
+}
