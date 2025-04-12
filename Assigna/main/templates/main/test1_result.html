@@ -1,21 +1,27 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RIASEC Test Results</title>
-</head>
-<body>
-    <h1>RIASEC Test Results</h1>
-    <p>Your RIASEC code: {{ riasec_code }}</p>
+{% extends 'main/layout.html' %}
 
-    <h2>Recommended Professions:</h2>
-    <ul>
-        {% for profession in professions %}
-            <li>{{ profession.profession_name }}</li>
-        {% endfor %}
+{% block title %}Результаты теста RIASEC{% endblock %}
+
+{% block main %}
+<div class="container mt-5">
+  <h1 class="mb-4">Твой RIASEC-код: <strong>{{ riasec_code }}</strong></h1>
+
+  <div class="alert alert-info">
+    <h4 class="alert-heading">Тип личности</h4>
+    <p>{{ type_description }}</p>
+  </div>
+
+  {% if professions %}
+    <h3 class="mt-4">Подходящие профессии</h3>
+    <ul class="list-group">
+      {% for profession in professions %}
+        <li class="list-group-item">{{ profession.profession_name }}</li>
+      {% endfor %}
     </ul>
+  {% else %}
+    <div class="alert alert-warning mt-4">Профессии для этого кода пока не найдены.</div>
+  {% endif %}
 
-    <a href="{% url 'test1' %}">Take the test again</a>
-</body>
-</html>
+  <a href="{% url 'test1' %}" class="btn btn-primary mt-4">Пройти заново</a>
+</div>
+{% endblock %}

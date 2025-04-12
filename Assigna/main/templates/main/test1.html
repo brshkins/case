@@ -1,18 +1,98 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <title>RIASEC Test</title>
-</head>
-<body>
-    <h1>RIASEC Test</h1>
-    <form method="POST">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Submit</button>
-    </form>
-</body>
-</html>
+{% extends 'main/layout.html' %}
+{% block title %}RIASEC Test{% endblock %}
 
+{% block main %}
+<div class="container">
+  <h1 class="mb-4">RIASEC Тест</h1>
+  <form method="post">
+    {% csrf_token %}
 
+    <div class="mb-3">
+      <p><strong>1. Ты любишь чинить технику?</strong></p>
+      <input type="hidden" name="letter_1" value="R">
+      <label><input type="radio" name="answer_1" value="Да" required> Да</label>
+      <label class="ms-3"><input type="radio" name="answer_1" value="Нет" required> Нет</label>
+    </div>
+
+    <div class="mb-3">
+      <p><strong>2. Тебе нравится разбираться в причинах явлений?</strong></p>
+      <input type="hidden" name="letter_2" value="I">
+      <label><input type="radio" name="answer_2" value="Да" required> Да</label>
+      <label class="ms-3"><input type="radio" name="answer_2" value="Нет" required> Нет</label>
+    </div>
+
+    <div class="mb-3">
+      <p><strong>3. Ты получаешь удовольствие от рисования или музыки?</strong></p>
+      <input type="hidden" name="letter_3" value="A">
+      <label><input type="radio" name="answer_3" value="Да" required> Да</label>
+      <label class="ms-3"><input type="radio" name="answer_3" value="Нет" required> Нет</label>
+    </div>
+
+    <div class="mb-3">
+      <p><strong>4. Ты заботишься о людях и хочешь им помогать?</strong></p>
+      <input type="hidden" name="letter_4" value="S">
+      <label><input type="radio" name="answer_4" value="Да" required> Да</label>
+      <label class="ms-3"><input type="radio" name="answer_4" value="Нет" required> Нет</label>
+    </div>
+
+    <div class="mb-3">
+      <p><strong>5. Ты умеешь убеждать и вести за собой?</strong></p>
+      <input type="hidden" name="letter_5" value="E">
+      <label><input type="radio" name="answer_5" value="Да" required> Да</label>
+      <label class="ms-3"><input type="radio" name="answer_5" value="Нет" required> Нет</label>
+    </div>
+
+    <div class="mb-3">
+      <p><strong>6. Ты любишь порядок и точные инструкции?</strong></p>
+      <input type="hidden" name="letter_6" value="C">
+      <label><input type="radio" name="answer_6" value="Да" required> Да</label>
+      <label class="ms-3"><input type="radio" name="answer_6" value="Нет" required> Нет</label>
+    </div>
+
+    <div class="mb-3">
+      <p><strong>7. Тебе интересны механизмы и инструменты?</strong></p>
+      <input type="hidden" name="letter_7" value="R">
+      <label><input type="radio" name="answer_7" value="Да" required> Да</label>
+      <label class="ms-3"><input type="radio" name="answer_7" value="Нет" required> Нет</label>
+    </div>
+
+    <div class="mb-3">
+      <p><strong>8. Ты предпочитаешь проводить исследования?</strong></p>
+      <input type="hidden" name="letter_8" value="I">
+      <label><input type="radio" name="answer_8" value="Да" required> Да</label>
+      <label class="ms-3"><input type="radio" name="answer_8" value="Нет" required> Нет</label>
+    </div>
+
+    <div class="mb-3">
+      <p><strong>9. Ты любишь придумывать новое и экспериментировать?</strong></p>
+      <input type="hidden" name="letter_9" value="A">
+      <label><input type="radio" name="answer_9" value="Да" required> Да</label>
+      <label class="ms-3"><input type="radio" name="answer_9" value="Нет" required> Нет</label>
+    </div>
+
+    <div class="mb-3">
+      <p><strong>10. Ты хочешь работать с людьми и их эмоциями?</strong></p>
+      <input type="hidden" name="letter_10" value="S">
+      <label><input type="radio" name="answer_10" value="Да" required> Да</label>
+      <label class="ms-3"><input type="radio" name="answer_10" value="Нет" required> Нет</label>
+    </div>
+
+    <div class="mb-3">
+      <p><strong>11. Тебе интересно управлять проектами и бизнесом?</strong></p>
+      <input type="hidden" name="letter_11" value="E">
+      <label><input type="radio" name="answer_11" value="Да" required> Да</label>
+      <label class="ms-3"><input type="radio" name="answer_11" value="Нет" required> Нет</label>
+    </div>
+
+    <div class="mb-3">
+      <p><strong>12. Тебе нравится заполнять таблицы и документы?</strong></p>
+      <input type="hidden" name="letter_12" value="C">
+      <label><input type="radio" name="answer_12" value="Да" required> Да</label>
+      <label class="ms-3"><input type="radio" name="answer_12" value="Нет" required> Нет</label>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Завершить</button>
+  </form>
+</div>
+{% endblock %}
 

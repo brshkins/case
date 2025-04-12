@@ -6,7 +6,7 @@ body, html {
     font-family: Arial, sans-serif;
 }
 
-/* Фон */
+/* Основной фон (для всех страниц) */
 .background-wrapper {
     background-image: url('../img/background.jpg');
     background-size: cover;
@@ -17,7 +17,7 @@ body, html {
     position: relative;
 }
 
-/* Дополнительный слой для большего размытия */
+/* Дополнительный слой для размытия фона */
 .background-wrapper::before {
     content: '';
     position: absolute;
@@ -26,8 +26,8 @@ body, html {
     right: 0;
     bottom: 0;
     background: inherit;
-    filter: blur(8px); /* Размытие самого фона */
-    z-index: -1; /* Отправляем под основной контент */
+    filter: blur(8px);
+    z-index: -1;
 }
 
 /* Сайдбар */
@@ -38,7 +38,7 @@ aside {
     color: white;
     height: 100vh;
     position: fixed;
-    z-index: 10; /* Чтобы сайдбар был поверх размытого фона */
+    z-index: 10;
 }
 
 /* Основной контент */
@@ -46,9 +46,9 @@ main {
     flex: 1;
     padding: 40px;
     color: white;
-    backdrop-filter: blur(15px); /* Увеличиваем размытие */
-    -webkit-backdrop-filter: blur(10px); /* Для поддержки в Safari */
-    background-color: rgba(0, 0, 0, 0.3); /* Добавляем затемнение для лучшей читаемости */
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(10px);
+    background-color: rgba(0, 0, 0, 0.3);
     margin-left: 250px;
     width: calc(100% - 250px);
     min-height: 100vh;
@@ -77,6 +77,7 @@ aside ul li:hover {
     background-color: rgba(255, 255, 255, 0.1);
 }
 
+/* Логотип */
 .logo {
     font-size: 1.5rem;
     font-weight: bold;
@@ -90,9 +91,84 @@ aside img {
     vertical-align: middle;
     margin-right: 10px;
 }
-aside img {
-    width: 40px;
-    height: 40px;
-    vertical-align: middle;
+
+/* Стили для страницы test1 */
+.test1-background {
+    background-image: url('../img/background1.jpg') !important;
+}
+
+.test1-background::before {
+    background-image: inherit !important;
+    filter: blur(8px) !important;
+}
+
+.test1-background main {
+    backdrop-filter: blur(15px) !important;
+    -webkit-backdrop-filter: blur(15px) !important;
+    background-color: rgba(0, 0, 0, 0.5) !important;
+}
+
+/* Контейнер формы для test1 */
+.test1-form-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 30px;
+    background-color: rgba(0, 0, 0, 0.7);
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+/* Стили формы */
+.test1-form {
+    margin-top: 20px;
+}
+
+.test1-form p {
+    margin-bottom: 20px;
+    padding: 15px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 5px;
+}
+
+.test1-form label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+.test1-form input[type="radio"] {
     margin-right: 10px;
+}
+
+.test1-form button {
+    margin-top: 20px;
+    padding: 10px 25px;
+    background-color: #4a6fa5;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.test1-form button:hover {
+    background-color: #3a5a8a;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    aside {
+        width: 100%;
+        height: auto;
+        position: relative;
+    }
+
+    main {
+        margin-left: 0;
+        width: 100%;
+    }
+
+    .test1-form-container {
+        padding: 20px;
+    }
 }
