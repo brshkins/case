@@ -8,7 +8,7 @@ body, html {
 
 /* Основной фон (для всех страниц) */
 .background-wrapper {
-    background-image: url('../img/background.jpg');
+    background-image: url('../img/background1.jpg');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -171,4 +171,107 @@ aside img {
     .test1-form-container {
         padding: 20px;
     }
+}
+
+.btn-start {
+  background-color: #7B2CBF; /* насыщенный фиолетовый */
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 24px;
+  transition: background-color 0.3s ease;
+}
+
+.btn-start:hover {
+  background-color: #5A189A; /* чуть темнее при наведении */
+  color: #fff;
+  text-decoration: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.intro-container {
+  background-color: rgba(0, 0, 0, 0.4);
+  padding: 40px;
+  border-radius: 16px;
+  color: #fff;
+  text-align: left;
+  max-width: 720px;
+  margin: auto;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(6px);
+}
+
+.intro-title {
+  font-size: 2.4rem;
+  font-weight: 700;
+  margin-bottom: 15px;
+  text-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+}
+
+.intro-subtitle {
+  font-size: 1.3rem;
+  margin-bottom: 30px;
+  text-shadow: 0 0 3px rgba(0, 0, 0, 0.4);
+}
+
+.features-box {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  margin-bottom: 30px;
+}
+
+.feature-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+  min-width: 220px;
+}
+
+.feature-icon {
+  font-size: 1.6rem;
+  color: #ffd700;
+}
+
+.feature-text {
+  font-size: 1.1rem;
+}
+
+.methodology-box {
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+  margin-bottom: 35px;
+}
+
+.methodology-badge {
+  color: #5cd15c;
+  font-size: 1.5rem;
+}
+
+.methodology-text {
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.cta-buttons {
+  text-align: left;
+}
+
+.btn-start {
+  background: linear-gradient(135deg, #6f42c1, #8e44ad);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  font-weight: 600;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.btn-start:hover {
+  background: linear-gradient(135deg, #8e44ad, #6f42c1);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
 }
