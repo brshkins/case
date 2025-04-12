@@ -1,27 +1,36 @@
 {% extends 'main/layout.html' %}
 
-{% block title %}Результаты теста RIASEC{% endblock %}
+{% block title %}Результаты теста{% endblock %}
 
 {% block main %}
-<div class="container mt-5">
-  <h1 class="mb-4">Твой RIASEC-код: <strong>{{ riasec_code }}</strong></h1>
+<div class="container mt-5 test1-form-container">
+  <h1 class="mb-4 text-center">Твой RIASEC-код: <strong>{{ riasec_code }}</strong></h1>
 
   <div class="alert alert-info">
-    <h4 class="alert-heading">Тип личности</h4>
-    <p>{{ type_description }}</p>
+    <h5 class="mb-2">Тип личности</h5>
+    <p class="mb-0">{{ type_description }}</p>
   </div>
 
   {% if professions %}
-    <h3 class="mt-4">Подходящие профессии</h3>
+    <h4 class="mt-4 mb-3">Подходящие профессии:</h4>
     <ul class="list-group">
       {% for profession in professions %}
-        <li class="list-group-item">{{ profession.profession_name }}</li>
+        <li class="list-group-item bg-transparent text-white border-light">
+          {{ profession.profession_name }}
+        </li>
       {% endfor %}
     </ul>
   {% else %}
-    <div class="alert alert-warning mt-4">Профессии для этого кода пока не найдены.</div>
+    <div class="alert alert-warning mt-4">
+      Профессии по данному коду пока не найдены.
+    </div>
   {% endif %}
 
-  <a href="{% url 'test1' %}" class="btn btn-primary mt-4">Пройти заново</a>
+  <div class="text-center mt-5">
+    <a href="{% url 'test2' %}" class="btn btn-start btn-lg">
+      Перейти ко 2 тесту
+      <i class="fas fa-arrow-right ms-2"></i>
+    </a>
+  </div>
 </div>
 {% endblock %}
