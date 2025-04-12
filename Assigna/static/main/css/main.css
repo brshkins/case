@@ -14,7 +14,7 @@ body, html {
     background-repeat: no-repeat;
     min-height: 100vh;
     display: flex;
-    position: relative; /* Добавляем для псевдоэлемента */
+    position: relative;
 }
 
 /* Дополнительный слой для большего размытия */

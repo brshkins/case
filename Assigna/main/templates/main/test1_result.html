@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RIASEC Test Results</title>
+</head>
+<body>
+    <h1>RIASEC Test Results</h1>
+    <p>Your RIASEC code: {{ riasec_code }}</p>
+
+    <h2>Recommended Professions:</h2>
+    <ul>
+        {% for profession in professions %}
+            <li>{{ profession.profession_name }}</li>
+        {% endfor %}
+    </ul>
+
+    <a href="{% url 'test1' %}">Take the test again</a>
+</body>
+</html>

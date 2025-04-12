@@ -1,21 +1,18 @@
-{% extends 'main/layout.html' %}
-
-{% block title %}Тест 1{% endblock %}
-
-{% block main %}
-    <h1>Первый тест - Голланд</h1>
-    <div class = 'content-box'>
-        <p>Сейчас тебе предстоит пройти первое тестирование от известного психолога Джона Голланда</p>
-        <div class="test-content">
-            <h3>Пример контента:</h3>
-            <ul>
-                <li>Элемент 1</li>
-                <li>Элемент 2</li>
-                <li>Элемент 3</li>
-            </ul>
-        </div>
-    </div>
-{% endblock %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>RIASEC Test</title>
+</head>
+<body>
+    <h1>RIASEC Test</h1>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>
 
 
 
