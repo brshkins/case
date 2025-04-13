@@ -70,7 +70,10 @@ def test3(request):
 def test1_result(request, result_id):
     result = TestResult.objects.get(id=result_id)
     professions = result.professions.all()
-    type_description = RIASEC_DESCRIPTIONS.get(result.code[0], '')
+    if result.code:
+        type_description = RIASEC_DESCRIPTIONS.get(result.code[0], '')
+    else:
+        type_description = 'Тип личности не определён'
     return render(request, 'main/test1_result.html', {
         'riasec_code': result.code,
         'professions': professions,
