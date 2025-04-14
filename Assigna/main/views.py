@@ -1,16 +1,17 @@
 from django.shortcuts import render
 from .forms import TestForm
 import json
-from collections import Counter
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 from .models import Profession, TestResult
-
+from collections import defaultdict
 from django.shortcuts import render, redirect
 from collections import Counter
 from .models import Profession, TestResult
+from collections import defaultdict
+from .models import MBTIResult
 
-# Список вопросов в виде словаря
+
 QUESTIONS = {
     1: {"text": "Ты любишь чинить технику?", "letter": "R"},
     2: {"text": "Тебе нравится разбираться в причинах явлений?", "letter": "I"},
@@ -35,6 +36,91 @@ RIASEC_DESCRIPTIONS = {
     'C': 'Конвенциональный — тебе важны порядок, точность, структура.',
 }
 
+MBTI_QUESTIONS = [
+    {"text": "Вам легче отдохнуть:", "dimension": "EI", "option_a": "В компании людей", "option_b": "В одиночестве"},
+    {"text": "Вы чаще говорите:", "dimension": "EI", "option_a": "Сначала говорю, потом думаю", "option_b": "Думаю, прежде чем говорить"},
+    {"text": "Что приносит больше удовольствия:", "dimension": "EI", "option_a": "Общение, мероприятия", "option_b": "Спокойные хобби"},
+    {"text": "Вы больше доверяете:", "dimension": "SN", "option_a": "Практическому опыту", "option_b": "Интуиции и идеям"},
+    {"text": "Вам ближе:", "dimension": "SN", "option_a": "Проверенные решения", "option_b": "Эксперименты, новизна"},
+    {"text": "Какой стиль мышления ближе:", "dimension": "SN", "option_a": "Конкретный и реалистичный", "option_b": "Абстрактный и образный"},
+    {"text": "Вы принимаете решения, основываясь на:", "dimension": "TF", "option_a": "Логике", "option_b": "Чувствах"},
+    {"text": "Вам ближе:", "dimension": "TF", "option_a": "Справедливость и анализ", "option_b": "Сочувствие и гармония"},
+    {"text": "В конфликте вы:", "dimension": "TF", "option_a": "Анализируете", "option_b": "Сопереживаете"},
+    {"text": "Вы чаще:", "dimension": "JP", "option_a": "Планируете заранее", "option_b": "Действуете спонтанно"},
+    {"text": "Вам ближе:", "dimension": "JP", "option_a": "Чёткий график", "option_b": "Свобода и гибкость"},
+    {"text": "При работе вы:", "dimension": "JP", "option_a": "Завершаете начатое", "option_b": "Легко переключаетесь"},
+]
+
+MBTI_TYPES = {
+    'ISTJ': {
+        'description': 'Организованный, ответственный, практичный. Любите стабильность и планирование.',
+        'professions': ['Бухгалтер', 'Аналитик данных', 'Администратор', 'Инженер']
+    },
+    'ISFJ': {
+        'description': 'Заботливый, надёжный, трудолюбивый. Сосредоточены на помощи другим.',
+        'professions': ['Учитель', 'Медсестра', 'Социальный работник', 'Архивариус']
+    },
+    'INFJ': {
+        'description': 'Идеалист, интуитивный и глубоко чувствующий. Часто вдохновляете других.',
+        'professions': ['Психолог', 'Писатель', 'Коуч', 'Арт-терапевт']
+    },
+    'INTJ': {
+        'description': 'Стратег, любит планировать и анализировать. Независим и уверен в себе.',
+        'professions': ['Программист', 'Инженер', 'Научный сотрудник', 'Стратег']
+    },
+    'ISTP': {
+        'description': 'Практичный, логичный, независимый. Любите работать руками и решать задачи.',
+        'professions': ['Механик', 'Инженер', 'Спасатель', 'Техник']
+    },
+    'ISFP': {
+        'description': 'Спокойный, доброжелательный, чувствительный. Тянетесь к красоте и искусству.',
+        'professions': ['Флорист', 'Фотограф', 'Дизайнер интерьеров', 'Иллюстратор']
+    },
+    'INFP': {
+        'description': 'Идеалистичный, мечтательный, цените гармонию. Вас вдохновляют идеи.',
+        'professions': ['Писатель', 'Редактор', 'Психолог', 'Преподаватель гуманитарных наук']
+    },
+    'INTP': {
+        'description': 'Аналитик, любознательный и независимый. Предпочитаете глубокое мышление.',
+        'professions': ['Научный исследователь', 'Программист', 'Теоретик', 'Системный аналитик']
+    },
+    'ESTP': {
+        'description': 'Энергичный, практичный, решительный. Любите действия и вызовы.',
+        'professions': ['Предприниматель', 'Спортивный тренер', 'Менеджер по продажам', 'Спасатель']
+    },
+    'ESFP': {
+        'description': 'Общительный, энергичный, жизнерадостный. Любите быть в центре внимания.',
+        'professions': ['Актёр', 'Стилист', 'Организатор мероприятий', 'Ведущий']
+    },
+    'ENFP': {
+        'description': 'Творческий, вдохновляющий, эмоциональный. Ищете смысл в жизни и работе.',
+        'professions': ['Маркетолог', 'Журналист', 'Тренер', 'Педагог']
+    },
+    'ENTP': {
+        'description': 'Изобретательный, остроумный, любит споры. Вам интересны новые идеи.',
+        'professions': ['Стартапер', 'PR-специалист', 'Разработчик продуктов', 'Политолог']
+    },
+    'ESTJ': {
+        'description': 'Практичный, решительный, организованный. Цените эффективность и структуру.',
+        'professions': ['Менеджер', 'Полицейский', 'Логист', 'Проектный координатор']
+    },
+    'ESFJ': {
+        'description': 'Дружелюбный, надёжный, ориентированный на других. Стремитесь помогать.',
+        'professions': ['Учитель', 'HR-менеджер', 'Фармацевт', 'Консультант']
+    },
+    'ENFJ': {
+        'description': 'Лидер, вдохновляющий, заботливый. Умеете объединять людей.',
+        'professions': ['Психолог', 'Тренер', 'Координатор проектов', 'Лектор']
+    },
+    'ENTJ': {
+        'description': 'Амбициозный, стратегический, уверенный. Прирождённый руководитель.',
+        'professions': ['Руководитель', 'Бизнес-аналитик', 'Адвокат', 'IT-директор']
+    }
+}
+
+def index(request):
+    return render(request, 'main/index.html')
+
 def test1(request):
     if request.method == 'POST':
         selected_letters = []
@@ -58,11 +144,42 @@ def test1(request):
 
     return render(request, 'main/test1.html', {'questions': QUESTIONS})
 
-def index(request):
-    return render(request, 'main/index.html')
-
 def test2(request):
-    return render(request, 'main/test2.html')
+    if request.method == 'POST':
+        scores = defaultdict(int)
+
+        for i in range(1, 13):
+            answer = request.POST.get(f'answer_{i}')
+            dimension = request.POST.get(f'dimension_{i}')
+            if not answer or not dimension:
+                continue
+            if answer == 'A':
+                scores[dimension[0]] += 1
+            else:
+                scores[dimension[1]] += 1
+
+        # Генерация кода по 4 шкалам
+        code = ''
+        for pair in ['EI', 'SN', 'TF', 'JP']:
+            if scores[pair[0]] > scores[pair[1]]:
+                code += pair[0]
+            else:
+                code += pair[1]  # если равны, выбираем вторую букву
+
+        info = MBTI_TYPES.get(code, {
+            'description': 'Описание не найдено.',
+            'professions': ['Профессии не найдены']
+        })
+
+        MBTIResult.objects.create(code=code, description=info['description']) #сохраняем результат в БД
+
+        return render(request, 'main/test2_result.html', {
+            'mbti_code': code,
+            'description': info['description'],
+            'professions': info['professions']
+        })
+
+    return render(request, 'main/test2.html', {'questions': MBTI_QUESTIONS})
 
 def test3(request):
     return render(request, 'main/test3.html')

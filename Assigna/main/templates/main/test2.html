@@ -1,17 +1,28 @@
 {% extends 'main/layout.html' %}
 
-{% block title %}Тест 2{% endblock %}
+{% block title %}Тест на тип личности (MBTI){% endblock %}
+{% block background_class %}test1-background{% endblock %}
 
 {% block main %}
-    <h1>Второй тест</h1>
-    <div class="content-box">
-        <p> </p>
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title">Пример карточки</h5>
-                <p class="card-text">Это пример использования Bootstrap компонентов.</p>
-                <button class="btn btn-primary">Кнопка</button>
-            </div>
-        </div>
-    </div>
+<div class="container test1-form-container">
+  <h2 class="mb-4">Адаптация MBTI</h2>
+  <form method="post" class="test1-form">
+    {% csrf_token %}
+
+    {% for question in questions %}
+      <div class="mb-3">
+        <p><strong>{{ forloop.counter }}. {{ question.text }}</strong></p>
+        <input type="hidden" name="dimension_{{ forloop.counter }}" value="{{ question.dimension }}">
+        <label>
+          <input type="radio" name="answer_{{ forloop.counter }}" value="A" required> {{ question.option_a }}
+        </label>
+        <label class="ms-3">
+          <input type="radio" name="answer_{{ forloop.counter }}" value="B" required> {{ question.option_b }}
+        </label>
+      </div>
+    {% endfor %}
+
+    <button type="submit" class="btn btn-start">Завершить тест</button>
+  </form>
+</div>
 {% endblock %}
