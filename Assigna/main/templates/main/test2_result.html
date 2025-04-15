@@ -1,24 +1,42 @@
 {% extends 'main/layout.html' %}
-{% block title %}Результат теста MBTI{% endblock %}
-{% block background_class %}test1-background{% endblock %}
+
+{% block title %}Результат MBTI теста{% endblock %}
 
 {% block main %}
 <div class="test1-form-container">
-  <h2 class="mb-4">Твой тип личности: <strong>{{ mbti_code }}</strong></h2>
+  <h2 class="text-center mb-4">Результат теста MBTI</h2>
 
   <div class="type-description-box">
+    <h4>Тип личности: {{ mbti_code }}</h4>
     <p>{{ description }}</p>
   </div>
 
-  <h4 class="mt-4">Подходящие профессии:</h4>
-  <ul class="profession-list">
-    {% for profession in professions %}
-      <li>{{ profession }}</li>
+  <h5>Подходящие профессии:</h5>
+  <ul>
+    {% for prof in professions %}
+      <li>{{ prof }}</li>
     {% endfor %}
   </ul>
 
-  <div class="cta-buttons mt-4">
-    <a href="{% url 'test3' %}" class="btn btn-start">Перейти к следующему тесту <i class="fas fa-arrow-right"></i></a>
+  <!-- Кнопка с загрузкой -->
+  <div class="text-center mt-4">
+    <form action="{% url 'test3' %}" method="get" onsubmit="showLoading()">
+      <button type="submit" class="btn btn-start">Перейти к следующему тесту</button>
+    </form>
+
+    <div id="loading" style="display:none; text-align:center; margin-top:20px;">
+      <div class="spinner-border text-light" role="status" style="width: 3rem; height: 3rem;">
+        <span class="visually-hidden">Загрузка...</span>
+      </div>
+      <p class="mt-3">Загружаем следующий тест...</p>
+    </div>
   </div>
 </div>
+
+<script>
+function showLoading() {
+  document.querySelector('form').style.display = 'none';
+  document.getElementById('loading').style.display = 'block';
+}
+</script>
 {% endblock %}
