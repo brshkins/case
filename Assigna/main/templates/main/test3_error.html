@@ -1,0 +1,11 @@
+{% extends 'main/layout.html' %}
+
+{% block title %}Ошибка при загрузке теста{% endblock %}
+
+{% block main %}
+<div class="alert alert-danger mt-4">
+    <h4>Произошла ошибка при попытке получить данные от ИИ</h4>
+    <p>{{ error }}</p>
+    <a href="{% url 'test3' %}" class="btn btn-primary mt-3">Попробовать снова</a>
+</div>
+{% endblock %}

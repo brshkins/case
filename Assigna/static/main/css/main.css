@@ -29,6 +29,18 @@ body, html {
     filter: blur(8px);
     z-index: -1;
 }
+
+aside {
+    width: 250px;
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: white;
+    height: 100vh;
+    position: fixed;
+    z-index: 10;
+}
+
+/* Основной контент */
 main {
     flex: 1;
     padding: 40px;
@@ -41,67 +53,42 @@ main {
     min-height: 100vh;
 }
 
-/* Сайдбар: фон, граница, шрифт */
-aside {
-    width: 250px;
-    padding: 30px 20px;
-    background: linear-gradient(180deg, #1c1c2d, #2a2a40);
-    color: white;
-    height: 100vh;
-    position: fixed;
-    z-index: 10;
-    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.4);
-}
-
-/* Заголовок "Навигация" */
-aside h2 {
-    font-size: 1.2rem;
-    margin-top: 30px;
-    margin-bottom: 15px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    color: #aaa;
-}
-
-/* Ссылки навигации */
+/* Навигация */
 aside ul {
     list-style: none;
     padding: 0;
-    margin: 0;
-}
-
-aside ul li {
-    margin-bottom: 12px;
 }
 
 aside ul a {
     text-decoration: none;
-    color: #fff;
+    color: white;
     display: block;
-    padding: 10px 15px;
-    border-radius: 6px;
-    transition: background 0.3s, transform 0.2s;
 }
 
-aside ul a:hover {
-    background-color: #6f42c1;
-    transform: translateX(4px);
-    color: #fff;
+aside ul li {
+    margin-bottom: 10px;
+    padding: 8px;
+    border-radius: 4px;
+    transition: background-color 0.3s;
 }
 
-/* Логотип и заголовок */
+aside ul li:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Логотип */
 .logo {
-    font-size: 1.7rem;
+    font-size: 1.5rem;
     font-weight: bold;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 25px;
+    display: block;
+    margin-bottom: 20px;
 }
 
 aside img {
     width: 40px;
     height: 40px;
+    vertical-align: middle;
+    margin-right: 10px;
 }
 
 /* Стили для страницы test1 */
@@ -132,7 +119,7 @@ aside img {
 
 /* Стили формы */
 .test1-form {
-    margin-top: 20px;
+    margin-top: 20px;в
 }
 
 .test1-form p {
@@ -356,4 +343,79 @@ aside img {
     border-radius: 10px;
     margin-bottom: 25px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Стилизация ссылок в навигации */
+aside ul li {
+    margin-bottom: 15px;
+    border-left: 4px solid transparent;
+    transition: all 0.3s ease;
+}
+
+aside ul li:hover {
+    border-left: 4px solid #8e44ad;
+}
+
+aside ul a {
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    color: #eee;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+aside ul a:hover {
+    color: #fff;
+}
+
+aside ul a i {
+    margin-right: 10px;
+    font-size: 1rem;
+    color: #bbb;
+    transition: color 0.3s;
+}
+
+aside ul a:hover i {
+    color: #fff;
+}
+
+aside ul a {
+    display: flex;
+    align-items: center;
+    padding: 10px 14px;
+    color: #ddd;
+    font-weight: 400;
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 15px;
+    letter-spacing: 0.3px;
+    text-decoration: none;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+}
+
+aside ul a:hover {
+    color: #fff;
+}
+
+aside ul li {
+    margin-bottom: 14px;
+    border-left: 4px solid transparent;
+    transition: all 0.3s ease;
+}
+
+aside ul li:hover {
+    border-left: 4px solid #9b59b6;
+}
+
+aside ul a i {
+    margin-right: 12px;
+    font-size: 16px;
+    color: #aaa;
+    transition: color 0.3s;
+}
+
+aside ul a:hover i {
+    color: #fff;
 }

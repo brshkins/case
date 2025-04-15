@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from .forms import TestForm
 import json
 from django.views.decorators.csrf import csrf_exempt
@@ -10,7 +9,13 @@ from collections import Counter
 from .models import Profession, TestResult
 from collections import defaultdict
 from .models import MBTIResult
-
+from django.shortcuts import render, redirect
+from django.views.decorators.csrf import csrf_exempt
+from .models import AIQuestionnaireResult
+from yandex_neural_api.client import YandexNeuralAPIClient
+import logging
+import re
+import os
 
 QUESTIONS = {
     1: {"text": "Ты любишь чинить технику?", "letter": "R"},
@@ -144,6 +149,20 @@ def test1(request):
 
     return render(request, 'main/test1.html', {'questions': QUESTIONS})
 
+def test1_result(request, result_id):
+    result = TestResult.objects.get(id=result_id)
+    professions = result.professions.all()
+    if result.code:
+        type_description = RIASEC_DESCRIPTIONS.get(result.code[0], '')
+    else:
+        type_description = 'Тип личности не определён'
+    return render(request, 'main/test1_result.html', {
+        'riasec_code': result.code,
+        'professions': professions,
+        'type_description': type_description
+    })
+
+
 def test2(request):
     if request.method == 'POST':
         scores = defaultdict(int)
@@ -181,18 +200,71 @@ def test2(request):
 
     return render(request, 'main/test2.html', {'questions': MBTI_QUESTIONS})
 
-def test3(request):
-    return render(request, 'main/test3.html')
+def test2_result(request, result_id):
+    return render(request, 'main/test2_result.html', {})
 
-def test1_result(request, result_id):
-    result = TestResult.objects.get(id=result_id)
-    professions = result.professions.all()
-    if result.code:
-        type_description = RIASEC_DESCRIPTIONS.get(result.code[0], '')
-    else:
-        type_description = 'Тип личности не определён'
-    return render(request, 'main/test1_result.html', {
-        'riasec_code': result.code,
-        'professions': professions,
-        'type_description': type_description
-    })
+# Настройки подключения к Yandex GPT
+client = YandexNeuralAPIClient(
+    iam_token=os.getenv("YANDEX_IAM_TOKEN"),
+    folder_id=os.getenv("YANDEX_FOLDER_ID")
+)
+
+# Вопросы + анализ по GPT
+def test3(request):
+    if request.method == 'GET':
+        prompt = (
+            "Сгенерируй 5 коротких вопросов по профориентации, каждый с 3–4 вариантами ответов. "
+            "Верни только JSON-массив: [{\"question\": \"...\", \"options\": [\"...\", \"...\"]}, ...]"
+        )
+
+        try:
+            raw_response = client.generate_text(prompt)
+            print(f'ответ от YandexGPT: \n {raw_response}')
+
+            cleaned_response = re.search(r"\[.*\]", raw_response, re.DOTALL)
+            if not cleaned_response:
+                return render(request, 'main/test3_error.html', {"error": "Ответ ИИ не содержит JSON-массив"})
+
+            questions = json.loads(cleaned_response.group(0))
+        except Exception as e:
+            return render(request, 'main/test3_error.html', {"error": str(e)})
+
+        return render(request, 'main/test3.html', {'questions': questions})
+
+    elif request.method == 'POST':
+        answers = {}
+        for key, value in request.POST.items():
+            if key.startswith("answer_"):
+                answers[key] = value
+
+        formatted_answers = "\n".join([f"{k}: {v}" for k, v in answers.items()])
+
+        analysis_prompt = (
+            f"Пользователь ответил так:\n{formatted_answers}\n\n"
+            "Сделай вывод о типе личности, опиши его кратко, и предложи список из 3–5 профессий. "
+            "Верни только JSON, без пояснений: {\"type\": \"...\", \"description\": \"...\", \"professions\": [\"...\", ...]}"
+        )
+        print('prompt для анализа: \n', analysis_prompt)
+
+        try:
+            result_raw = client.generate_text(analysis_prompt)
+            print(f'ответ от GPT: \n {result_raw}')
+            result_data = json.loads(result_raw.strip('` \n'))
+        except Exception as e:
+            return render(request, 'main/test3_error.html', {"error": str(e)})
+
+        result = AIQuestionnaireResult.objects.create(
+            answers=answers,
+            result_type=result_data.get("type", "Не определён"),
+            description=result_data.get("description", ""),
+            professions=result_data.get("professions", [])
+        )
+
+        print('ответы:', answers)
+        print('результат от гпт:', result_data)
+        return redirect('test3_result', result_id=result.id)
+
+# Отображение результата
+def test3_result(request, result_id):
+    result = AIQuestionnaireResult.objects.get(id=result_id)
+    return render(request, 'main/test3_result.html', {'result': result})
