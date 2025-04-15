@@ -1,0 +1,23 @@
+{% extends 'main/layout.html' %}
+
+{% block title %}MBTI Тест{% endblock %}
+
+{% block main %}
+<div class="test1-form-container">
+  <h1>Адаптация MBTI</h1>
+  <form method="post" class="test1-form">
+    {% csrf_token %}
+    {% for question in questions %}
+      <div class="test-question">
+        <p><strong>{{ forloop.counter }}. {{ question.text }}</strong></p>
+        <input type="hidden" name="dimension_{{ forloop.counter }}" value="{{ question.dimension }}">
+        <div class="test-options">
+          <label><input type="radio" name="answer_{{ forloop.counter }}" value="A" required> {{ question.option_a }}</label>
+          <label><input type="radio" name="answer_{{ forloop.counter }}" value="B" required> {{ question.option_b }}</label>
+        </div>
+      </div>
+    {% endfor %}
+    <button type="submit" class="test-submit-btn">Завершить</button>
+  </form>
+</div>
+{% endblock %}

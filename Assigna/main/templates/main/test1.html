@@ -1,0 +1,27 @@
+{% extends 'main/layout.html' %}
+{% load static %}
+
+{% block title %}RIASEC Тест{% endblock %}
+{% block background_class %}test1-background{% endblock %}
+
+{% block main %}
+<div class="container test1-form-container">
+  <h1>RIASEC Тест</h1>
+  <form method="post" class="test1-form">
+    {% csrf_token %}
+
+    {% for num, q in questions.items %}
+    <div class="test-question">
+      <p><strong>{{ num }}. {{ q.text }}</strong></p>
+      <div class="test-options">
+        <label><input type="radio" name="answer_{{ num }}" value="Да" required> Да</label>
+        <label><input type="radio" name="answer_{{ num }}" value="Нет"> Нет</label>
+      </div>
+      <input type="hidden" name="letter_{{ num }}" value="{{ q.letter }}">
+    </div>
+    {% endfor %}
+
+    <button type="submit" class="test-submit-btn">Завершить</button>
+  </form>
+</div>
+{% endblock %}

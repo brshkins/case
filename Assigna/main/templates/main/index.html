@@ -1,0 +1,42 @@
+{% extends 'main/layout.html' %}
+
+{% block title %}Профориентационные тесты{% endblock %}
+
+{% block main %}
+<div class="intro-container animate-fade-in">
+    <h1 class="intro-title">Ты абитуриент или студент и ещё не определился с профессией?</h1>
+    <p class="intro-subtitle">Мы поможем!</p>
+
+    <div class="features-box column-layout">
+        <div class="feature-item">
+            <div class="feature-icon"><i class="fas fa-clipboard-list"></i></div>
+            <p class="feature-text">Пройди 3 коротких теста</p>
+        </div>
+        <div class="feature-item">
+            <div class="feature-icon"><i class="fas fa-lightbulb"></i></div>
+            <p class="feature-text">Пойми свои интересы</p>
+        </div>
+        <div class="feature-item">
+            <div class="feature-icon"><i class="fas fa-user-graduate"></i></div>
+            <p class="feature-text">Получи персональные рекомендации</p>
+        </div>
+    </div>
+
+    <div class="methodology-box">
+        <div class="methodology-badge">
+            <i class="fas fa-check-circle"></i>
+        </div>
+        <p class="methodology-text">
+            Каждый тест основан на проверенных методиках, а итоговый результат
+            покажет, в каком направлении тебе стоит двигаться.
+        </p>
+    </div>
+
+    <div class="cta-buttons">
+        <a href="{% url 'test1' %}" class="btn btn-start btn-lg">
+            Начать тестирование
+            <i class="fas fa-arrow-right"></i>
+        </a>
+    </div>
+</div>
+{% endblock %}

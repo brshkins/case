@@ -1,0 +1,26 @@
+{% extends 'main/layout.html' %}
+
+{% block title %}Результаты ИИ теста{% endblock %}
+
+{% block main %}
+<div class="test1-form-container">
+  <h2 class="text-center mb-4">Результаты ИИ теста</h2>
+
+  <div class="type-description-box">
+    <h4>Тип: {{ result.result_type }}</h4>
+    <p>{{ result.description }}</p>
+  </div>
+
+  <h5>Рекомендованные профессии:</h5>
+  <ul>
+    {% for prof in result.professions %}
+      <li>{{ prof }}</li>
+    {% endfor %}
+  </ul>
+
+  <div class="text-center mt-4">
+    <a href="{% url 'index' %}" class="btn btn-start">На главную</a>
+  </div>
+</div>
+{% endblock %}
+
