@@ -9,12 +9,12 @@ load_dotenv(os.path.join(BASE_DIR, '.env'))
 
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-xhk!r#dq2t@b8_p)1m^e@t&$*q*(i3cm_x$!n4oxaex!mus7fc'
+SECRET_KEY = os.getenv("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True #при выгрузке поменять на False
+DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.31.29']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
 
 # Application definition
