@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
+from .views import load_professions_view
 
 urlpatterns = [
     path('', views.index, name='index'),
@@ -9,4 +10,5 @@ urlpatterns = [
     path('test2_result/<int:result_id>/', views.test2_result, name='test2_result'),
     path('test3/', views.test3, name='test3'),
     path('test3_result/<int:result_id>/', views.test3_result, name='test3_result'),
+    path('load_professions/', load_professions_view, name='load_professions'),
 ]

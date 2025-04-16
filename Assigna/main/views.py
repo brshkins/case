@@ -268,3 +268,11 @@ def test3(request):
 def test3_result(request, result_id):
     result = AIQuestionnaireResult.objects.get(id=result_id)
     return render(request, 'main/test3_result.html', {'result': result})
+
+
+from django.http import HttpResponse
+from django.core.management import call_command
+
+def load_professions_view(request):
+    call_command('load_professions')
+    return HttpResponse("Профессии успешно загружены.")
